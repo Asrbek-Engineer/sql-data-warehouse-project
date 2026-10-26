@@ -1,8 +1,22 @@
 /*
-   Stored Procedure:
-		load bronze layer (source CSV -> bronze tables)
-		Truncates the bronze tables, then loads data with BULK INSERT.
-   Usage: exec bronze.load_bronze;
+==============================================================
+Stored Procedure: Load Bronze Layer
+==============================================================
+Script Purpose:
+	Loads raw data from the source CSV files (CRM and ERP)
+	into the 'bronze' tables as-is, without transformations.
+
+Actions Performed:
+	- Truncates the bronze tables, then loads data with BULK INSERT.
+	- Logs the load duration of each table and of the whole batch (ms).
+	- On error: prints message, number, line and state, then re-throws it.
+
+Parameters:
+	None. This procedure does not accept parameters or return values.
+
+Usage Example:
+	exec bronze.load_bronze;
+==============================================================
 */
 
 use DataWarehouse;
@@ -11,7 +25,7 @@ go
 create or alter procedure bronze.load_bronze as
 begin
 	begin try
-		declare @start_time datetime, @end_time datetime, @batch_start_time datetime, @batch_end_time datetime;
+		declare @start_time datetime2, @end_time datetime2, @batch_start_time datetime2, @batch_end_time datetime2;
 		set @batch_start_time = sysdatetime();
 
 		print '==============================================';
@@ -140,6 +154,7 @@ begin
 		print 'ERROR OCCURRED DURING LOADING BRONZE LAYER';
 		print 'Error Message: ' + error_message();
 		print 'Error Number: ' + cast(error_number() as nvarchar(10));
+		print 'Error Line: ' + cast(error_line() as nvarchar(10));
 		print 'Error State: ' + cast(error_state() as nvarchar(10));
 		print '==============================================';
 		throw;

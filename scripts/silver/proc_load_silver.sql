@@ -1,8 +1,25 @@
 /*
-   Stored Procedure: load silver layer (bronze -> silver)
-   Truncates the silver tables, then loads cleaned and standardized data from bronze.
-   Usage: exec silver.load_silver;
+==============================================================
+Stored Procedure: Load Silver Layer (Bronze -> Silver)
+==============================================================
+Script Purpose:
+	Runs the ETL process that fills the 'silver' tables
+	with cleaned and standardized data from the 'bronze' schema.
+
+Actions Performed:
+	- Truncates the silver tables.
+	- Inserts transformed and cleansed data from bronze into silver.
+	- Logs the load duration of each table and of the whole batch (ms).
+	- On error: prints message, number, line and state, then re-throws it.
+
+Parameters:
+	None. This procedure does not accept parameters or return values.
+
+Usage Example:
+	exec silver.load_silver;
+==============================================================
 */
+
 use DataWarehouse;
 go
 
