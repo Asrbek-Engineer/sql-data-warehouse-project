@@ -2,9 +2,23 @@
 ==============================================================
 Quality Checks: Silver Layer
 ==============================================================
-Run after loading the silver layer. Queries marked
-"Expectation: No results" must return no rows.
+Script Purpose:
+	Checks data consistency, accuracy and standardization
+	in the 'silver' schema. It includes checks for:
+	- Null or duplicate primary keys.
+	- Unwanted spaces in string fields.
+	- Data standardization and consistency.
+	- Invalid date ranges and date orders.
+	- Consistency between related fields (sales = quantity * price).
+
+Usage Notes:
+	- Run after loading the silver layer: EXEC silver.load_silver;
+	- Queries marked "Expectation: No results" must return no rows.
+	- Exception: very old birth dates in erp_cust_az12 are kept on purpose.
+	- Investigate and fix any issue found before loading the gold layer.
+==============================================================
 */
+
 use DataWarehouse;
 go
 
