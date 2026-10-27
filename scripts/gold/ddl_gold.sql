@@ -15,6 +15,9 @@ Usage:
 use DataWarehouse;
 go
 
+-- =============================================================
+-- Create Dimension: gold.dim_customers
+-- =============================================================
 if object_id('gold.dim_customers', 'V') is not null
 	drop view gold.dim_customers;
 go
@@ -41,6 +44,9 @@ create view gold.dim_customers as
 		on ci.cst_key = la.cid;
 go
 
+-- =============================================================
+-- Create Dimension: gold.dim_products
+-- =============================================================
 if object_id('gold.dim_products', 'V') is not null
 	drop view gold.dim_products;
 go
@@ -64,6 +70,9 @@ create view gold.dim_products as
 	where pn.prd_end_dt is null -- Filter out all Historical data
 go
 
+-- =============================================================
+-- Create Fact Table: gold.fact_sales
+-- =============================================================
 if object_id('gold.fact_sales', 'V') is not null
 	drop view gold.fact_sales;
 go
