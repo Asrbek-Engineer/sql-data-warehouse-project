@@ -26,8 +26,8 @@ go
 create or alter procedure silver.load_silver as
 begin
 	begin try
-		declare @start_time datetime2, @end_time datetime2, @start_batch_time datetime2,  @end_batch_time datetime2;
-		set @start_batch_time = sysdatetime();
+		declare @start_time datetime2, @end_time datetime2, @batch_start_time datetime2,  @batch_end_time datetime2;
+		set @batch_start_time = sysdatetime();
 
 		-- =====================================================
 		-- Load Silver Layer
@@ -235,10 +235,10 @@ begin
 		set @end_time = sysdatetime();
 		print 'Load Duration: ' + cast(datediff(millisecond, @start_time, @end_time) as nvarchar(10)) + ' milliseconds';
 
-		set @end_batch_time = sysdatetime();
+		set @batch_end_time = sysdatetime();
 		print '=====================================================';
 		print 'Loading Silver Layer is Completed';
-		print ' - Total Load Duration: ' + cast(datediff(millisecond, @start_batch_time, @end_batch_time) as nvarchar(10)) + ' milliseconds';
+		print ' - Total Load Duration: ' + cast(datediff(millisecond, @batch_start_time, @batch_end_time) as nvarchar(10)) + ' milliseconds';
 		print '=====================================================';
 	end try
 	
